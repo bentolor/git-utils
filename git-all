@@ -1,0 +1,45 @@
+#!/bin/bash
+
+PROJECTS_DIR=~/projects
+
+# Abort immediately on errors
+set -e
+
+function git_fetch {
+	echo ''
+	echo --- $1
+	cd $1
+	git fetch --all	
+	if [ -e .git/svn/refs/remotes ]; then
+		echo Fetching SVN commits...
+		git svn fetch --log-window-size=10000
+		#echo Trying a 'git svn rebase -l'
+		git svn rebase -l 2> /dev/null
+	fi
+}
+
+if [ -z "$1" ]; then
+    COMMAND="fetch"
+    ARGS=""
+else 
+    COMMAND="$1"
+    ARGS="${*:2}"
+fi    
+
+case $COMMAND in
+fetch)
+	for gitdir in $( find $PROJECTS_DIR -maxdepth 1 -name '*.git' -type d ); do
+    	git_fetch $gitdir
+	done
+	;;
+*)
+	for gitdir in $( find $PROJECTS_DIR -maxdepth 1 -name '*.git' -type d ); do
+		echo ''
+		echo --- $gitdir
+    	cd $gitdir
+    	echo Executing: git $COMMAND $ARGS
+    	git $COMMAND $ARGS
+	done
+	;;
+esac
+

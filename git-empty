@@ -1,0 +1,8 @@
+#!/bin/bash
+git checkout --orphan empty
+git rm -rf .
+touch empty_git_branch_to_save_diskspace.txt
+git add empty_git_branch_to_save_diskspace.txt
+git commit -m "Empty Git branch to save disk space. Use 'git checkout' to switch."
+git gc
+
