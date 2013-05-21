@@ -11,3 +11,8 @@ A collection of poor-mans Git utilities.
   branch and adds/commits a short hint-file about the current branch.
   Executes an additional `git gc` to further assist the idea of this 
   empty branch of saving disk space.
+  
+License
+-------
+These scripts are licensed under the terms of APL2.0.
+For terms refer to http://www.apache.org/licenses/LICENSE-2.0.html
