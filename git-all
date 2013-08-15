@@ -11,7 +11,10 @@ function git_fetch {
 	echo --- $1
 	cd $1
 	let COUNTER=COUNTER+1
-	git fetch --all	
+	# Fetch tags only from primary upstream repo
+	git fetch --tags
+	# Fetch everything from all repositories.
+	git fetch --all		
 	if [ -e .git/svn/refs/remotes ]; then
 		echo Fetching SVN commits...
 		git svn fetch --log-window-size=10000
