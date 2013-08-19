@@ -12,7 +12,10 @@ function git_fetch {
 	cd $1
 	let COUNTER=COUNTER+1
 	# Fetch tags only from primary upstream repo
+	# The follwing command may fail. This is ok.
+	set +e
 	git fetch --tags
+	set -e
 	# Fetch everything from all repositories.
 	git fetch --all		
 	if [ -e .git/svn/refs/remotes ]; then
