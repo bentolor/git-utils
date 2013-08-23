@@ -11,15 +11,20 @@ function git_fetch {
 	echo --- $1
 	cd $1
 	let COUNTER=COUNTER+1
-	# Fetch tags only from primary upstream repo
-	# The follwing command may fail. This is ok.
-	set +e
-	git fetch --tags
-	set -e
+	# Do we have _any_ remote configured?
+	if grep -Fq  "[remote" .git/config 
+	then
+    	echo Fetching Git remotes with tags
+		# Fetch tags only from primary upstream repo
+		# The follwing command may fail. This is ok.
+		set +e
+		git fetch --tags
+		set -e
+	fi
 	# Fetch everything from all repositories.
 	git fetch --all		
 	if [ -e .git/svn/refs/remotes ]; then
-		echo Fetching SVN commits...
+		echo Fetching Subversion commits...
 		git svn fetch --log-window-size=10000
 		# The follwing command may fail. This is ok.
 		set +e
